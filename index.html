@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multiservicios Umaña</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      background: #f0f0f0;
+      color: #222;
+      scroll-behavior: smooth;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      padding: 10px 0;
+      z-index: 1000;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+    nav a:hover { color: #ffb300; }
+    .lang {
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .hero-banner {
+      height: 400px;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                  url('bobcat_fondo.jpg') center center / cover no-repeat;
+      margin-top: 60px;
+    }
+    .section {
+      text-align: center;
+      padding: 50px 20px;
+      background: white;
+      margin: 20px auto;
+      width: 90%;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .carousel img {
+      width: 100%; max-height: 500px; object-fit: cover;
+      border-radius: 10px;
+    }
+    .video-container {
+      margin: 40px auto;
+      width: 90%;
+      max-width: 900px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .video-container video {
+      width: 100%;
+      border-radius: 10px;
+    }
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: 0;
+      border-radius: 10px;
+    }
+    footer {
+      text-align: center;
+      background: #000;
+      color: #ffb300;
+      padding: 20px;
+    }
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #25D366;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      cursor: pointer;
+    }
+    .whatsapp-float img {
+      width: 30px;
+      height: 30px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+    .modal-content {
+      background: #fff;
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      color: #000;
+    }
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .modal-content button {
+      background: #ffb300;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .close {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+    <div>
+      <a href="#servicios" id="nav-servicios">Servicios</a>
+      <a href="#galeria" id="nav-galeria">Galería</a>
+      <a href="#video" id="nav-video">Video</a>
+      <a href="#ubicacion" id="nav-ubicacion">Ubicación</a>
+      <a href="#" id="nav-contacto">Contacto</a>
+    </div>
+    <div style="display: flex; align-items: center;">
+      <select id="lang" class="lang">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+      </select>
+      <img src="logo_multiservicios_umana.png" alt="Logo" style="height: 50px; margin-left: 15px;" />
+    </div>
+  </div>
+</nav>
+
+<div class="hero-banner"></div>
+
+<section id="servicios" data-aos="fade-up" class="section" style="text-align: center; padding: 40px 20px;">
+  <img src="logo_multiservicios_umana.png" alt="Logo Multiservicios Umaña" style="max-width: 180px; margin-bottom: 20px;">
+  <h2 id="titulo-servicios">Alquiler y Reparación de Equipos</h2>
+  <p id="texto-servicios" style="font-size: 1.2em; max-width: 800px; margin: 0 auto;">
+    Ofrecemos equipos profesionales para construcción y servicio técnico garantizado. ¡Todo lo que su proyecto necesita, en un solo lugar!
+  </p>
+</section>
+
+
+<section id="galeria" data-aos="zoom-in" class="section">
+  <h2 id="titulo-galeria">Galería de Equipos</h2>
+  <div class="carousel">
+    <div><a href="equipo1.png" data-lightbox="galeria"><img src="equipo1.png" alt="Equipo" /></a></div>
+    <div><a href="equipo2.png" data-lightbox="galeria"><img src="equipo2.png" alt="Equipo" /></a></div>
+    <div><a href="equipo4.jpeg" data-lightbox="galeria"><img src="equipo4.jpeg" alt="Equipo" /></a></div>
+    <div><a href="equipo5.jpeg" data-lightbox="galeria"><img src="equipo5.jpeg" alt="Equipo" /></a></div>
+    <div><a href="equipo6.jpeg" data-lightbox="galeria"><img src="equipo6.jpeg" alt="Equipo" /></a></div>
+    <div><a href="equipo7.jpeg" data-lightbox="galeria"><img src="equipo7.jpeg" alt="Equipo" /></a></div>
+    <div><a href="equipo8.jpeg" data-lightbox="galeria"><img src="equipo8.jpeg" alt="Equipo" /></a></div>
+    <div><a href="equipo9.jpeg" data-lightbox="galeria"><img src="equipo9.jpeg" alt="Equipo" /></a></div>
+    <div><a href="equipo10.jpeg" data-lightbox="galeria"><img src="equipo10.jpeg" alt="Equipo" /></a></div>
+    <div><a href="equipo11.jpeg" data-lightbox="galeria"><img src="equipo11.jpeg" alt="Equipo" /></a></div>
+  </div>
+</section>
+
+<section id="video" data-aos="fade-left" class="section">
+  <h2 id="titulo-video">Video Promocional</h2>
+  <div class="video-container">
+    <video controls autoplay muted loop>
+      <source src="video_cliente.mp4" type="video/mp4" />
+      Tu navegador no soporta video HTML5.
+    </video>
+  </div>
+</section>
+
+<section id="ubicacion" data-aos="fade-up" class="section">
+  <h2 id="titulo-ubicacion">¿Dónde Estamos?</h2>
+  <iframe src="https://maps.google.com/maps?q=San%20Jose%20Costa%20Rica&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+</section>
+
+<footer>
+  Desarrollado por <strong>Sistemas03il.com</strong> | Tel: 6452-0450 | Correo: mjimenez@sistemas03il.com
+  <div style="text-align:center;margin-top:10px;">
+    <a href="https://facebook.com" target="_blank">Facebook</a>
+  </div>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/50688409466?text=Hola,%20me%20gustaría%20consultar%20sobre%20sus%20equipos" target="_blank">
+  <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
+</a>
+
+<div id="contactModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('contactModal').style.display='none'">&times;</span>
+    <h2>Contáctenos</h2>
+    <form action="https://formspree.io/f/mjkrgnab" method="POST">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="email" name="email" placeholder="Correo electrónico" required>
+      <textarea name="mensaje" rows="4" placeholder="Mensaje o consulta" required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>AOS.init();</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script>
+  $('.carousel').slick({ autoplay: true, dots: true, arrows: true });
+
+  const textos = {
+    es: {
+      "titulo-servicios": "Alquiler y Reparación de Equipos",
+      "texto-servicios": "Contamos con maquinaria especializada para construcción: compactadoras, demoledores, mezcladoras, generadores y más. También reparamos sus equipos con garantía.",
+      "titulo-galeria": "Galería de Equipos",
+      "titulo-video": "Video Promocional",
+      "titulo-ubicacion": "¿Dónde Estamos?",
+      "nav-servicios": "Servicios",
+      "nav-galeria": "Galería",
+      "nav-video": "Video",
+      "nav-ubicacion": "Ubicación",
+      "nav-contacto": "Contacto"
+    },
+    en: {
+      "titulo-servicios": "Equipment Rental & Repair",
+      "texto-servicios": "We offer specialized construction equipment: compactors, breakers, mixers, generators, and more. We also repair your machinery with warranty.",
+      "titulo-galeria": "Equipment Gallery",
+      "titulo-video": "Promotional Video",
+      "titulo-ubicacion": "Our Location",
+      "nav-servicios": "Services",
+      "nav-galeria": "Gallery",
+      "nav-video": "Video",
+      "nav-ubicacion": "Location",
+      "nav-contacto": "Contact"
+    }
+  };
+
+  document.getElementById('lang').addEventListener('change', function () {
+    const lang = this.value;
+    const txt = textos[lang];
+    for (let id in txt) {
+      document.getElementById(id).textContent = txt[id];
+    }
+  });
+
+  const contacto = document.getElementById('nav-contacto');
+  const modal = document.getElementById('contactModal');
+
+  contacto.addEventListener('click', function(e) {
+    e.preventDefault();
+    modal.style.display = 'block';
+  });
+
+  document.querySelector('.close').addEventListener('click', function () {
+    modal.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
