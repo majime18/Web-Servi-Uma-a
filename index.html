@@ -5,303 +5,688 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Multiservicios Umaña</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-      margin: 0;
-      background: #f0f0f0;
-      color: #222;
-      scroll-behavior: smooth;
+    :root {
+      --orange:      #FF6B00;
+      --orange-soft: #FF8C35;
+      --orange-pale: #FFF0E6;
+      --orange-mid:  #FFD4B3;
+      --cream:       #FFFCF9;
+      --cream2:      #FFF8F2;
+      --sand:        #F5EFE8;
+      --sand2:       #EDE5DB;
+      --stone:       #D4C9BC;
+      --ink:         #1A1208;
+      --ink2:        #2D2416;
+      --muted:       #7A6B58;
+      --muted2:      #A89C8E;
+      --white:       #FFFFFF;
+      --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px; --radius-xl: 40px;
+      --shadow-sm: 0 2px 12px rgba(26,18,8,0.06);
+      --shadow-md: 0 8px 32px rgba(26,18,8,0.10);
+      --shadow-lg: 0 24px 64px rgba(26,18,8,0.14);
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--sand); }
+    ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 4px; }
+
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      padding: 10px 0;
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0 48px; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,252,249,0.88);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(212,201,188,0.5);
+      transition: all 0.35s ease;
     }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-size: 1.1rem;
+    nav.scrolled { height: 60px; background: rgba(255,252,249,0.97); box-shadow: 0 4px 24px rgba(26,18,8,0.08); }
+    .nav-logo img { height: 40px; transition: height 0.3s; }
+    nav.scrolled .nav-logo img { height: 34px; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; padding: 7px 14px; border-radius: 50px; transition: all 0.2s;
     }
-    nav a:hover { color: #ffb300; }
-    .lang {
-      padding: 5px;
-      border-radius: 5px;
+    .nav-links a:hover { background: var(--sand); color: var(--ink); }
+    .nav-cta {
+      background: var(--orange) !important; color: var(--white) !important;
+      padding: 8px 20px !important; border-radius: 50px !important; font-weight: 700 !important;
+      box-shadow: 0 4px 16px rgba(255,107,0,0.28);
     }
-    .hero-banner {
-      height: 400px;
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                  url('bobcat_fondo.jpg') center center / cover no-repeat;
-      margin-top: 60px;
+    .nav-cta:hover { background: var(--orange-soft) !important; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,107,0,0.36) !important; }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    #lang {
+      background: var(--sand); border: none; outline: none; color: var(--muted);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; font-weight: 600;
+      padding: 6px 10px; border-radius: 50px; cursor: pointer;
     }
-    .section {
-      text-align: center;
-      padding: 50px 20px;
-      background: white;
-      margin: 20px auto;
-      width: 90%;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+    .hamburger span { width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.3s; display: block; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* HERO */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; overflow: hidden; background: var(--cream);
     }
-    .carousel img {
-      width: 100%; max-height: 500px; object-fit: cover;
-      border-radius: 10px;
+    .hero-left { padding: 140px 64px 80px 80px; position: relative; z-index: 2; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--orange-pale); color: var(--orange);
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      padding: 7px 16px; border-radius: 50px; margin-bottom: 28px;
+      border: 1px solid var(--orange-mid);
+      animation: fadeSlideUp 0.7s ease both;
     }
-    .video-container {
-      margin: 40px auto;
-      width: 90%;
-      max-width: 900px;
-      border-radius: 10px;
-      overflow: hidden;
+    .hero-badge::before { content: '●'; font-size: 0.5rem; animation: blink 1.5s ease infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero h1 {
+      font-family: 'Fraunces', serif; font-size: clamp(3rem, 5.5vw, 5.5rem);
+      font-weight: 900; line-height: 1.0; letter-spacing: -2px; color: var(--ink);
+      margin-bottom: 28px; animation: fadeSlideUp 0.7s 0.15s ease both;
     }
-    .video-container video {
-      width: 100%;
-      border-radius: 10px;
+    .hero h1 em { font-style: italic; color: var(--orange); font-weight: 300; }
+    .hero-desc {
+      font-size: 1.05rem; font-weight: 400; line-height: 1.75; color: var(--muted);
+      max-width: 440px; margin-bottom: 40px; animation: fadeSlideUp 0.7s 0.3s ease both;
     }
-    iframe {
-      width: 100%;
-      height: 400px;
-      border: 0;
-      border-radius: 10px;
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; animation: fadeSlideUp 0.7s 0.45s ease both; }
+    .btn-fill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--orange); color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; font-weight: 700;
+      padding: 14px 30px; border-radius: 50px; border: none; text-decoration: none; cursor: pointer;
+      box-shadow: 0 8px 28px rgba(255,107,0,0.32); transition: all 0.25s;
     }
-    footer {
-      text-align: center;
-      background: #000;
-      color: #ffb300;
-      padding: 20px;
+    .btn-fill:hover { background: var(--orange-soft); transform: translateY(-2px); box-shadow: 0 14px 36px rgba(255,107,0,0.38); }
+    .btn-fill .arrow { transition: transform 0.2s; }
+    .btn-fill:hover .arrow { transform: translateX(4px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--ink);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
+      padding: 14px 30px; border-radius: 50px; border: 1.5px solid var(--sand2);
+      text-decoration: none; cursor: pointer; transition: all 0.25s;
     }
-    .whatsapp-float {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 60px;
-      height: 60px;
-      background-color: #25D366;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      cursor: pointer;
-    }
-    .whatsapp-float img {
-      width: 30px;
-      height: 30px;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0; top: 0;
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-pale); }
+    .hero-right { position: relative; height: 100%; min-height: 100vh; }
+    .hero-img-wrap { position: absolute; inset: 0; overflow: hidden; }
+    .hero-bg-div {
       width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
+      background: url('bobcat_fondo.jpg') center/cover no-repeat;
+      animation: heroZoom 18s ease-in-out infinite alternate;
     }
-    .modal-content {
-      background: #fff;
-      margin: 10% auto;
-      padding: 30px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-      color: #000;
+    @keyframes heroZoom { from{transform:scale(1)} to{transform:scale(1.06)} }
+    .hero-overlay-l { position: absolute; inset: 0; background: linear-gradient(to right, var(--cream) 0%, transparent 35%); }
+    .hero-overlay-d { position: absolute; inset: 0; background: linear-gradient(rgba(26,18,8,0.05), rgba(26,18,8,0.2)); }
+    .hero-float-card {
+      position: absolute; bottom: 60px; left: -40px;
+      background: var(--white); border-radius: var(--radius-md); padding: 20px 24px;
+      box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 16px;
+      animation: fadeSlideUp 0.8s 0.7s ease both; border: 1px solid var(--sand2);
+      min-width: 220px; z-index: 3;
     }
-    .modal-content input,
-    .modal-content textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+    .hero-float-icon {
+      width: 48px; height: 48px; background: var(--orange-pale);
+      border-radius: var(--radius-sm); display: flex; align-items: center;
+      justify-content: center; font-size: 1.5rem; flex-shrink: 0; border: 1px solid var(--orange-mid);
     }
-    .modal-content button {
-      background: #ffb300;
-      color: #000;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
+    .hero-float-text strong {
+      font-size: 1.4rem; font-weight: 800; color: var(--ink);
+      font-family: 'Fraunces', serif; display: block; line-height: 1;
     }
-    .close {
-      float: right;
-      font-size: 20px;
-      cursor: pointer;
-      font-weight: bold;
+    .hero-float-text span { font-size: 0.72rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 80px;
+      display: flex; align-items: center; gap: 10px;
+      animation: fadeSlideUp 0.8s 0.9s ease both;
+    }
+    .scroll-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1.5px solid var(--stone); display: flex; align-items: center;
+      justify-content: center; font-size: 0.7rem; color: var(--muted);
+      animation: scrollBob 2s ease-in-out infinite;
+    }
+    @keyframes scrollBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
+    .hero-scroll span { font-size: 0.72rem; color: var(--muted2); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+    @keyframes fadeSlideUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+    /* STATS */
+    .stats-strip {
+      background: var(--ink2); padding: 36px 80px;
+      display: flex; justify-content: center; gap: clamp(32px,8vw,100px); flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-n { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 900; line-height: 1; color: var(--orange); }
+    .stat-l { font-size: 0.72rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,248,242,0.45); margin-top: 4px; }
+
+    /* COMMON */
+    section { padding: 110px 80px; }
+    .container { max-width: 1240px; margin: 0 auto; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 14px;
+    }
+    .eyebrow::before { content:''; width: 24px; height: 2px; background: var(--orange); border-radius: 2px; }
+    h2.heading {
+      font-family: 'Fraunces', serif; font-size: clamp(2.2rem, 4vw, 3.6rem);
+      font-weight: 900; line-height: 1.08; letter-spacing: -1.5px; color: var(--ink); margin-bottom: 20px;
+    }
+    h2.heading em { font-style: italic; color: var(--orange); font-weight: 300; }
+
+    /* SERVICIOS */
+    #servicios { background: var(--white); }
+    .servicios-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 70px; }
+    .servicios-left { max-width: 580px; }
+    .servicios-desc { font-size: 1rem; line-height: 1.8; color: var(--muted); margin-top: 16px; max-width: 520px; }
+    .servicios-contact {
+      margin-top: 20px; display: inline-flex; align-items: center; gap: 10px;
+      background: var(--orange-pale); padding: 10px 18px; border-radius: 50px;
+      border: 1px solid var(--orange-mid); font-size: 0.85rem; color: var(--ink);
+    }
+    .servicios-contact strong { color: var(--orange); }
+    .servicios-right img { max-height: 60px; opacity: 0.85; }
+    .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .svc-card {
+      background: var(--cream2); border-radius: var(--radius-lg); padding: 36px 28px;
+      border: 1px solid var(--sand2); position: relative; overflow: hidden;
+      transition: all 0.3s cubic-bezier(.25,.46,.45,.94); cursor: default;
+    }
+    .svc-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--orange), var(--orange-soft));
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+    }
+    .svc-card:hover { background: var(--white); transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--orange-mid); }
+    .svc-card:hover::after { transform: scaleX(1); }
+    .svc-icon {
+      width: 56px; height: 56px; background: var(--orange-pale); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+      margin-bottom: 24px; border: 1px solid var(--orange-mid);
+    }
+    .svc-card h3 { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.2; }
+    .svc-card p { font-size: 0.87rem; line-height: 1.7; color: var(--muted); }
+
+    /* GALERIA */
+    #galeria { background: var(--sand); }
+    .galeria-top { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; gap: 20px; flex-wrap: wrap; }
+    .galeria-hint { font-size: 0.8rem; color: var(--muted2); display: flex; align-items: center; gap: 6px; }
+    .galeria-hint::before { content: ''; width: 20px; height: 1px; background: var(--stone); }
+    .gallery-masonry { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .g { position: relative; overflow: hidden; border-radius: var(--radius-md); background: var(--sand2); }
+    .g a { display: block; width: 100%; height: 100%; }
+    .g img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .g:hover img { transform: scale(1.05); }
+    .g-overlay {
+      position: absolute; inset: 0; background: rgba(26,18,8,0);
+      display: flex; align-items: center; justify-content: center; transition: background 0.3s;
+    }
+    .g:hover .g-overlay { background: rgba(26,18,8,0.35); }
+    .g-overlay-icon {
+      width: 48px; height: 48px; background: rgba(255,255,255,0.9); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+      opacity: 0; transform: scale(0.7); transition: all 0.25s;
+    }
+    .g:hover .g-overlay-icon { opacity: 1; transform: scale(1); }
+    .g.tall { grid-row: span 2; min-height: 320px; }
+    .g.normal { min-height: 210px; }
+    .g.wide { grid-column: span 2; min-height: 210px; }
+    .gallery-row2 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 12px; }
+    .gallery-row2 .g { min-height: 160px; }
+
+    /* VIDEO */
+    #video { background: var(--white); }
+    .video-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; align-items: center; }
+    .video-info .heading { font-size: clamp(2rem,3.5vw,3rem); }
+    .video-info p { font-size: 0.95rem; line-height: 1.8; color: var(--muted); margin-top: 16px; }
+    .video-wrap { position: relative; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg); background: var(--sand); }
+    .video-wrap video { width: 100%; display: block; }
+    .video-wrap::before {
+      content: ''; position: absolute; inset: 0; border-radius: var(--radius-xl);
+      border: 2px solid rgba(255,107,0,0.15); z-index: 1; pointer-events: none;
+    }
+
+    /* UBICACION */
+    #ubicacion { background: var(--cream2); }
+    .ubicacion-layout { display: grid; grid-template-columns: 1.1fr 1.7fr; gap: 60px; align-items: start; margin-top: 50px; }
+    .ub-cards { display: flex; flex-direction: column; gap: 12px; }
+    .ub-card {
+      background: var(--white); border-radius: var(--radius-md); padding: 20px 22px;
+      display: flex; align-items: center; gap: 16px; border: 1px solid var(--sand2); transition: all 0.2s;
+    }
+    .ub-card:hover { box-shadow: var(--shadow-md); border-color: var(--orange-mid); }
+    .ub-card-icon {
+      width: 44px; height: 44px; flex-shrink: 0; background: var(--orange-pale);
+      border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; border: 1px solid var(--orange-mid);
+    }
+    .ub-card-body label { font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted2); display: block; margin-bottom: 3px; }
+    .ub-card-body p, .ub-card-body a { font-size: 0.92rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .ub-card-body a:hover { color: var(--orange); }
+    .map-card { border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--sand2); }
+    .map-card iframe { width: 100%; height: 460px; border: 0; display: block; }
+
+    /* MODAL */
+    .modal { display: none; position: fixed; inset: 0; z-index: 3000; background: rgba(26,18,8,0.6); backdrop-filter: blur(12px); }
+    .modal-box {
+      background: var(--white); border-radius: var(--radius-xl); padding: 52px 48px;
+      width: 92%; max-width: 500px; margin: 7vh auto; position: relative;
+      box-shadow: var(--shadow-lg); animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes popIn { from{opacity:0;transform:scale(0.93) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    .modal-close-btn {
+      position: absolute; top: 20px; right: 20px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--sand); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--muted); transition: all 0.2s;
+    }
+    .modal-close-btn:hover { background: var(--orange-pale); color: var(--orange); }
+    .modal-box h2 { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; color: var(--ink); margin-bottom: 4px; }
+    .modal-box h2 em { font-style: italic; color: var(--orange); font-weight: 300; }
+    .modal-sub { font-size: 0.87rem; color: var(--muted); margin-bottom: 30px; }
+    .f-group { margin-bottom: 16px; }
+    .f-group label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .f-group input, .f-group textarea {
+      width: 100%; background: var(--cream2); border: 1.5px solid var(--sand2);
+      border-radius: var(--radius-sm); font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.92rem; color: var(--ink); padding: 12px 16px; outline: none; transition: border-color 0.2s;
+    }
+    .f-group input:focus, .f-group textarea:focus { border-color: var(--orange); background: var(--white); }
+    .f-group textarea { resize: vertical; min-height: 100px; }
+    .f-submit {
+      width: 100%; padding: 14px; background: var(--orange); color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 700;
+      border: none; border-radius: 50px; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255,107,0,0.28); transition: all 0.2s;
+    }
+    .f-submit:hover { background: var(--orange-soft); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer { background: var(--ink2); padding: 64px 80px 36px; }
+    .footer-grid {
+      max-width: 1240px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 48px;
+    }
+    .footer-brand img { height: 44px; filter: brightness(0) invert(1); opacity: 0.65; margin-bottom: 14px; display: block; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: rgba(255,248,242,0.4); max-width: 280px; }
+    .f-col h4 { font-size: 0.68rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+    .f-col a, .f-col p { display: block; font-size: 0.85rem; color: rgba(255,248,242,0.45); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+    .f-col a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1240px; margin: 0 auto; padding-top: 28px;
+      border-top: 1px solid rgba(255,248,242,0.08);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: rgba(255,248,242,0.25); }
+    .footer-bottom a { color: rgba(255,140,53,0.7); text-decoration: none; }
+    .social-row { display: flex; gap: 8px; }
+    .social-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(255,248,242,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,248,242,0.4); text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: all 0.2s;
+    }
+    .social-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* WHATSAPP */
+    .wa-float {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 60px; height: 60px; background: #25D366; border-radius: 50%;
+      box-shadow: 0 8px 28px rgba(37,211,102,0.45);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000; text-decoration: none; transition: all 0.3s;
+    }
+    .wa-float:hover { transform: scale(1.1) rotate(-5deg); }
+    .wa-float img { width: 28px; height: 28px; }
+    .wa-ring { position: absolute; inset: -5px; border-radius: 50%; border: 2px solid rgba(37,211,102,0.4); animation: waPulse 2.2s ease-out infinite; }
+    @keyframes waPulse { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.55);opacity:0} }
+
+    /* REVEAL */
+    .r { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .r.in { opacity: 1; transform: translateY(0); }
+    .r.d1 { transition-delay: 0.1s; } .r.d2 { transition-delay: 0.2s; }
+    .r.d3 { transition-delay: 0.3s; } .r.d4 { transition-delay: 0.4s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 130px 40px 60px; }
+      .hero-right { height: 55vw; min-height: 380px; }
+      .hero-overlay-l { background: linear-gradient(to bottom, var(--cream) 0%, transparent 40%); }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .video-layout { grid-template-columns: 1fr; }
+      .ubicacion-layout { grid-template-columns: 1fr; }
+      section { padding: 80px 40px; }
+      .stats-strip { padding: 28px 40px; }
+      footer { padding: 50px 40px 28px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links {
+        display: none; flex-direction: column; gap: 4px;
+        position: absolute; top: 72px; left: 0; right: 0;
+        background: rgba(255,252,249,0.98); border-bottom: 1px solid var(--sand2);
+        padding: 16px 24px; box-shadow: 0 8px 24px rgba(26,18,8,0.08);
+      }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      section { padding: 70px 24px; }
+      .gallery-masonry { grid-template-columns: repeat(2,1fr); }
+      .g.tall { grid-row: span 1; } .g.wide { grid-column: span 2; }
+      .gallery-row2 { grid-template-columns: repeat(2,1fr); }
+      .services-grid { grid-template-columns: 1fr; }
+      footer { padding: 40px 24px 24px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .modal-box { padding: 36px 24px; }
+      .hero-float-card { left: 12px; bottom: 40px; }
+      .hero-scroll { left: 40px; }
+      .hero-left { padding: 120px 24px 50px; }
+      .servicios-top { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
-    <div>
-      <a href="#servicios" id="nav-servicios">Servicios</a>
-      <a href="#galeria" id="nav-galeria">Galería</a>
-      <a href="#video" id="nav-video">Video</a>
-      <a href="#ubicacion" id="nav-ubicacion">Ubicación</a>
-      <a href="#" id="nav-contacto">Contacto</a>
-    </div>
-    <div style="display: flex; align-items: center;">
-      <select id="lang" class="lang">
-        <option value="es">Español</option>
-        <option value="en">English</option>
-      </select>
-      <img src="logo_multiservicios_umana.png" alt="Logo" style="height: 50px; margin-left: 15px;" />
-    </div>
+<nav id="navbar">
+  <div class="nav-logo"><img src="logo_multiservicios_umana.png" alt="Multiservicios Umaña" /></div>
+  <div class="nav-links" id="navLinks">
+    <a href="#servicios" id="nav-servicios" onclick="closeMenu()">Servicios</a>
+    <a href="#galeria"   id="nav-galeria"   onclick="closeMenu()">Galería</a>
+    <a href="#video"     id="nav-video"     onclick="closeMenu()">Video</a>
+    <a href="#ubicacion" id="nav-ubicacion" onclick="closeMenu()">Ubicación</a>
+    <a href="#" id="nav-contacto" class="nav-cta" onclick="openModal(event)">Contacto</a>
+  </div>
+  <div class="nav-right">
+    <select id="lang"><option value="es">🇨🇷 ES</option><option value="en">🇺🇸 EN</option></select>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
   </div>
 </nav>
 
-<div class="hero-banner"></div>
-
-<section id="servicios" data-aos="fade-up" class="section" style="text-align: center; padding: 40px 20px;">
-  <img src="logo_multiservicios_umana.png" alt="Logo Multiservicios Umaña" style="max-width: 180px; margin-bottom: 20px;">
-  <h2 id="titulo-servicios">Alquiler y Reparación de Equipos</h2>
- <p id="texto-servicios" style="font-size: 1.2em; max-width: 800px; margin: 0 auto;">
-  SERVICIO DE ALQUILER Y REPARACIÓN DE EQUIPO PARA LA CONSTRUCCIÓN.
-</p>
-
-<p style="font-size: 1em; max-width: 800px; margin: 20px auto 0; color: #444;">
-  Contamos con taller de servicio , servicio de transporte, servicio de movimiento de tierra y demolición, manejamos los mejores precios del mercado, 
-  somos el mejor apoyo en sus proyectos, contamos con equipos certificados, garantía de calidad comprobada, personal profesional y experiencia.
-</p>
-
-<p style="font-size: 1em; max-width: 800px; margin: 10px auto 0; color: #444;">
-  📧 Correo: <strong>isaacume@gmail.com</strong>
-</p>
-
-</section>
-
-
-<section id="galeria" data-aos="zoom-in" class="section">
-  <h2 id="titulo-galeria">Galería de Equipos</h2>
-  <div class="carousel">
-    <div><a href="equipo1.png" data-lightbox="galeria"><img src="equipo1.png" alt="Equipo" /></a></div>
-    <div><a href="equipo2.png" data-lightbox="galeria"><img src="equipo2.png" alt="Equipo" /></a></div>
-    <div><a href="equipo4.jpeg" data-lightbox="galeria"><img src="equipo4.jpeg" alt="Equipo" /></a></div>
-    <div><a href="equipo5.jpeg" data-lightbox="galeria"><img src="equipo5.jpeg" alt="Equipo" /></a></div>
-    <div><a href="equipo6.jpeg" data-lightbox="galeria"><img src="equipo6.jpeg" alt="Equipo" /></a></div>
-    <div><a href="equipo7.jpeg" data-lightbox="galeria"><img src="equipo7.jpeg" alt="Equipo" /></a></div>
-    <div><a href="equipo8.jpeg" data-lightbox="galeria"><img src="equipo8.jpeg" alt="Equipo" /></a></div>
-    <div><a href="equipo9.jpeg" data-lightbox="galeria"><img src="equipo9.jpeg" alt="Equipo" /></a></div>
-    <div><a href="equipo10.jpeg" data-lightbox="galeria"><img src="equipo10.jpeg" alt="Equipo" /></a></div>
-    <div><a href="equipo11.jpeg" data-lightbox="galeria"><img src="equipo11.jpeg" alt="Equipo" /></a></div>
-    <div><a href="equipo13.jpg" data-lightbox="galeria"><img src="equipo13.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo14.jpg" data-lightbox="galeria"><img src="equipo14.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo15.jpg" data-lightbox="galeria"><img src="equipo15.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo16.jpg" data-lightbox="galeria"><img src="equipo16.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo17.jpg" data-lightbox="galeria"><img src="equipo17.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo18.jpg" data-lightbox="galeria"><img src="equipo18.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo19.jpg" data-lightbox="galeria"><img src="equipo19.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo20.jpg" data-lightbox="galeria"><img src="equipo20.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo21.jpg" data-lightbox="galeria"><img src="equipo21.jpg" alt="Equipo" /></a></div>
-    <div><a href="equipo22.jpg" data-lightbox="galeria"><img src="equipo22.jpg" alt="Equipo" /></a></div>
+<section class="hero" id="inicio">
+  <div class="hero-left">
+    <div class="hero-badge" id="hero-badge">Costa Rica · Guanacaste</div>
+    <h1 id="hero-h1">Equipo<br>pesado,<br><em>resultados</em><br>reales.</h1>
+    <p class="hero-desc" id="hero-desc">Alquiler, reparación y transporte de maquinaria para construcción. Calidad certificada, precios competitivos y personal profesional.</p>
+    <div class="hero-ctas">
+      <a href="#servicios" class="btn-fill" id="hero-btn1">Ver servicios <span class="arrow">→</span></a>
+      <a href="#" class="btn-ghost" id="hero-btn2" onclick="openModal(event)">Cotizar ahora</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-dot">↓</div>
+      <span id="hero-scroll-lbl">Explorar</span>
+    </div>
   </div>
-
-</section>
-
-<section id="video" data-aos="fade-left" class="section">
-  <h2 id="titulo-video">Video Promocional</h2>
-  <div class="video-container">
-    <video controls autoplay muted loop>
-      <source src="video_cliente.mp4" type="video/mp4" />
-      Tu navegador no soporta video HTML5.
-    </video>
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <div class="hero-bg-div"></div>
+      <div class="hero-overlay-l"></div>
+      <div class="hero-overlay-d"></div>
+    </div>
+    <div class="hero-float-card">
+      <div class="hero-float-icon">🏗️</div>
+      <div class="hero-float-text">
+        <strong>15+</strong>
+        <span id="hero-float-lbl">Años de experiencia</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<section id="ubicacion" data-aos="fade-up" class="section">
-  <h2 id="titulo-ubicacion">¿Dónde Estamos?</h2>
-  <iframe src="https://maps.google.com/maps?q=San%20Jose%20Costa%20Rica&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+<div class="stats-strip">
+  <div class="stat r"><div class="stat-n">20+</div><div class="stat-l" id="stat1">Equipos disponibles</div></div>
+  <div class="stat r d1"><div class="stat-n">100%</div><div class="stat-l" id="stat2">Calidad certificada</div></div>
+  <div class="stat r d2"><div class="stat-n">24/7</div><div class="stat-l" id="stat3">Soporte activo</div></div>
+  <div class="stat r d3"><div class="stat-n">⭐</div><div class="stat-l" id="stat4">Clientes satisfechos</div></div>
+</div>
+
+<section id="servicios">
+  <div class="container">
+    <div class="servicios-top">
+      <div class="servicios-left">
+        <div class="eyebrow r" id="lbl-servicios">Nuestros servicios</div>
+        <h2 class="heading r d1" id="titulo-servicios">Alquiler &<br><em>reparación</em> de equipos</h2>
+        <p class="servicios-desc r d2" id="texto-servicios">Contamos con taller de servicio, transporte, movimiento de tierra y demolición. Los mejores precios del mercado con equipos certificados y garantía de calidad comprobada.</p>
+        <div class="servicios-contact r d3">📧 <strong id="email-lbl">Correo:</strong>&nbsp;<strong>isaacume@gmail.com</strong></div>
+      </div>
+      <div class="servicios-right r"><img src="logo_multiservicios_umana.png" alt="Logo" /></div>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card r"><div class="svc-icon">🏗️</div><h3 id="srv1-t">Alquiler de Maquinaria</h3><p id="srv1-d">Compactadoras, demoledores, mezcladoras, generadores y más equipos especializados para su proyecto.</p></div>
+      <div class="svc-card r d1"><div class="svc-icon">🔧</div><h3 id="srv2-t">Reparación & Taller</h3><p id="srv2-d">Servicio técnico especializado con garantía comprobada para todos los equipos de construcción.</p></div>
+      <div class="svc-card r d2"><div class="svc-icon">🚚</div><h3 id="srv3-t">Transporte</h3><p id="srv3-d">Traslado y movilización de equipos pesados con flota propia. Cubrimos toda la región de Guanacaste.</p></div>
+      <div class="svc-card r d3"><div class="svc-icon">🌍</div><h3 id="srv4-t">Movimiento de Tierra</h3><p id="srv4-d">Excavación, nivelación y demolición con equipos de última generación y operadores certificados.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="galeria">
+  <div class="container">
+    <div class="galeria-top">
+      <div>
+        <div class="eyebrow r" id="lbl-galeria">Galería</div>
+        <h2 class="heading r d1" id="titulo-galeria">Nuestros<br><em>equipos</em></h2>
+      </div>
+      <span class="galeria-hint r" id="galeria-hint">Clic en las imágenes para ampliar</span>
+    </div>
+    <div class="gallery-masonry r">
+      <div class="g tall"><a href="equipo1.png" data-lightbox="g"><img src="equipo1.png" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g normal"><a href="equipo2.png" data-lightbox="g"><img src="equipo2.png" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g normal"><a href="equipo4.jpeg" data-lightbox="g"><img src="equipo4.jpeg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g tall"><a href="equipo5.jpeg" data-lightbox="g"><img src="equipo5.jpeg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g wide"><a href="equipo6.jpeg" data-lightbox="g"><img src="equipo6.jpeg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g normal"><a href="equipo7.jpeg" data-lightbox="g"><img src="equipo7.jpeg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g normal"><a href="equipo8.jpeg" data-lightbox="g"><img src="equipo8.jpeg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g normal"><a href="equipo9.jpeg" data-lightbox="g"><img src="equipo9.jpeg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g normal"><a href="equipo10.jpeg" data-lightbox="g"><img src="equipo10.jpeg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g normal"><a href="equipo11.jpeg" data-lightbox="g"><img src="equipo11.jpeg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+    </div>
+    <div class="gallery-row2 r">
+      <div class="g"><a href="equipo13.jpg" data-lightbox="g"><img src="equipo13.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo14.jpg" data-lightbox="g"><img src="equipo14.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo15.jpg" data-lightbox="g"><img src="equipo15.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo16.jpg" data-lightbox="g"><img src="equipo16.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo17.jpg" data-lightbox="g"><img src="equipo17.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo18.jpg" data-lightbox="g"><img src="equipo18.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo19.jpg" data-lightbox="g"><img src="equipo19.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo20.jpg" data-lightbox="g"><img src="equipo20.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo21.jpg" data-lightbox="g"><img src="equipo21.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+      <div class="g"><a href="equipo22.jpg" data-lightbox="g"><img src="equipo22.jpg" alt="Equipo"/><div class="g-overlay"><div class="g-overlay-icon">🔍</div></div></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="container">
+    <div class="video-layout">
+      <div class="video-info">
+        <div class="eyebrow r" id="lbl-video">En acción</div>
+        <h2 class="heading r d1" id="titulo-video">Véanos<br><em>trabajar</em></h2>
+        <p class="r d2" id="video-desc">Mire de cerca cómo operamos nuestros equipos con precisión y profesionalismo en cada proyecto.</p>
+        <div class="r d3" style="margin-top:28px;">
+          <a href="#" class="btn-fill" onclick="openModal(event)" id="video-cta">Solicitar cotización <span class="arrow">→</span></a>
+        </div>
+      </div>
+      <div class="video-wrap r d1">
+        <video controls autoplay muted loop playsinline>
+          <source src="video_cliente.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ubicacion">
+  <div class="container">
+    <div class="eyebrow r" id="lbl-ubicacion">Encuéntrenos</div>
+    <h2 class="heading r d1" id="titulo-ubicacion">¿Dónde<br><em>estamos?</em></h2>
+    <div class="ubicacion-layout">
+      <div class="ub-cards">
+        <div class="ub-card r"><div class="ub-card-icon">📍</div><div class="ub-card-body"><label id="ub-dir">Dirección</label><p>San José, Costa Rica · Guanacaste</p></div></div>
+        <div class="ub-card r d1"><div class="ub-card-icon">📞</div><div class="ub-card-body"><label id="ub-tel">Teléfono / WhatsApp</label><a href="https://wa.me/50688409466">+506 8840-9466</a></div></div>
+        <div class="ub-card r d2"><div class="ub-card-icon">📧</div><div class="ub-card-body"><label id="ub-email">Correo</label><a href="mailto:isaacume@gmail.com">isaacume@gmail.com</a></div></div>
+        <div class="ub-card r d3"><div class="ub-card-icon">🕐</div><div class="ub-card-body"><label id="ub-hora">Horario</label><p id="ub-hora-txt">Lunes – Sábado · 7:00am – 6:00pm</p></div></div>
+        <div class="r d4" style="margin-top:8px;"><a href="#" class="btn-fill" onclick="openModal(event)" id="cta-cotizar">Solicitar cotización <span class="arrow">→</span></a></div>
+      </div>
+      <div class="map-card r d1">
+        <iframe src="https://maps.google.com/maps?q=San%20Jose%20Costa%20Rica&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer>
-  Desarrollado por <strong>Sistemas03il.com</strong> | Tel: 6452-0450 | Correo: mjimenez@sistemas03il.com
-  <div style="text-align:center;margin-top:10px;">
-    <a href="https://facebook.com" target="_blank">Facebook</a>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="logo_multiservicios_umana.png" alt="Logo" />
+      <p id="footer-desc">Empresa líder en alquiler y reparación de equipo para la construcción en Costa Rica. Experiencia, calidad y compromiso.</p>
+    </div>
+    <div class="f-col">
+      <h4 id="footer-nav-t">Navegación</h4>
+      <a href="#servicios" id="f-servicios">Servicios</a>
+      <a href="#galeria"   id="f-galeria">Galería</a>
+      <a href="#video"     id="f-video">Video</a>
+      <a href="#ubicacion" id="f-ubicacion">Ubicación</a>
+      <a href="#" onclick="openModal(event)" id="f-contacto">Contacto</a>
+    </div>
+    <div class="f-col">
+      <h4 id="footer-dev-t">Desarrollado por</h4>
+      <p>Sistemas03il.com</p>
+      <a href="tel:64520450">Tel: 6452-0450</a>
+      <a href="mailto:mjimenez@sistemas03il.com">mjimenez@sistemas03il.com</a>
+      <div class="social-row" style="margin-top:14px;">
+        <a href="https://facebook.com" target="_blank" class="social-btn">f</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Multiservicios Umaña · <span id="footer-rights">Todos los derechos reservados.</span></p>
+    <a href="https://wa.me/50688409466">+506 8840-9466</a>
   </div>
 </footer>
 
-<a class="whatsapp-float" href="https://wa.me/50688409466?text=Hola,%20me%20gustaría%20consultar%20sobre%20sus%20equipos" target="_blank">
-  <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
+<a class="wa-float" href="https://wa.me/50688409466?text=Hola,%20me%20gustaría%20consultar%20sobre%20sus%20equipos" target="_blank">
+  <div class="wa-ring"></div>
+  <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp" />
 </a>
 
 <div id="contactModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="document.getElementById('contactModal').style.display='none'">&times;</span>
-    <h2>Contáctenos</h2>
+  <div class="modal-box">
+    <button class="modal-close-btn" onclick="closeModal()">✕</button>
+    <h2 id="modal-title">Contáctenos <em>hoy</em></h2>
+    <p class="modal-sub" id="modal-sub">Respondemos en menos de 24 horas ✦</p>
     <form action="https://formspree.io/f/mjkrgnab" method="POST">
-      <input type="text" name="nombre" placeholder="Nombre completo" required>
-      <input type="email" name="email" placeholder="Correo electrónico" required>
-      <textarea name="mensaje" rows="4" placeholder="Mensaje o consulta" required></textarea>
-      <button type="submit">Enviar</button>
+      <div class="f-group"><label id="f-nombre">Nombre completo</label><input type="text" name="nombre" required placeholder="Su nombre" /></div>
+      <div class="f-group"><label id="f-email-lbl">Correo electrónico</label><input type="email" name="email" required placeholder="correo@ejemplo.com" /></div>
+      <div class="f-group"><label id="f-msg">Mensaje o consulta</label><textarea name="mensaje" required placeholder="Describa el equipo que necesita..."></textarea></div>
+      <button type="submit" class="f-submit" id="f-send">Enviar mensaje →</button>
     </form>
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script>AOS.init();</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script>
-  $('.carousel').slick({ autoplay: true, dots: true, arrows: true });
+  if(typeof lightbox!=='undefined') lightbox.option({resizeDuration:200,wrapAround:true,albumLabel:'%1 / %2'});
 
-  const textos = {
-    es: {
-      "titulo-servicios": "Alquiler y Reparación de Equipos",
-      "texto-servicios": "Contamos con maquinaria especializada para construcción: compactadoras, demoledores, mezcladoras, generadores y más. También reparamos sus equipos con garantía.",
-      "titulo-galeria": "Galería de Equipos",
-      "titulo-video": "Video Promocional",
-      "titulo-ubicacion": "¿Dónde Estamos?",
-      "nav-servicios": "Servicios",
-      "nav-galeria": "Galería",
-      "nav-video": "Video",
-      "nav-ubicacion": "Ubicación",
-      "nav-contacto": "Contacto"
+  window.addEventListener('scroll',()=>{
+    document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+  });
+
+  function toggleMenu(){
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('open');
+  }
+  function closeMenu(){
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  }
+  function openModal(e){e.preventDefault();document.getElementById('contactModal').style.display='block';}
+  function closeModal(){document.getElementById('contactModal').style.display='none';}
+  document.getElementById('contactModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+  },{threshold:0.08});
+  document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+  const TX={
+    es:{
+      "hero-badge":"Costa Rica · Guanacaste",
+      "hero-h1":"Equipo<br>pesado,<br><em>resultados</em><br>reales.",
+      "hero-desc":"Alquiler, reparación y transporte de maquinaria para construcción. Calidad certificada, precios competitivos y personal profesional.",
+      "hero-btn1":"Ver servicios <span class='arrow'>→</span>","hero-btn2":"Cotizar ahora",
+      "hero-float-lbl":"Años de experiencia","hero-scroll-lbl":"Explorar",
+      "stat1":"Equipos disponibles","stat2":"Calidad certificada","stat3":"Soporte activo","stat4":"Clientes satisfechos",
+      "lbl-servicios":"Nuestros servicios","titulo-servicios":"Alquiler &<br><em>reparación</em> de equipos",
+      "texto-servicios":"Contamos con taller de servicio, transporte, movimiento de tierra y demolición. Los mejores precios del mercado con equipos certificados y garantía de calidad comprobada.",
+      "email-lbl":"Correo:",
+      "srv1-t":"Alquiler de Maquinaria","srv1-d":"Compactadoras, demoledores, mezcladoras, generadores y más equipos especializados para su proyecto.",
+      "srv2-t":"Reparación & Taller","srv2-d":"Servicio técnico especializado con garantía comprobada para todos los equipos de construcción.",
+      "srv3-t":"Transporte","srv3-d":"Traslado y movilización de equipos pesados con flota propia. Cubrimos toda la región de Guanacaste.",
+      "srv4-t":"Movimiento de Tierra","srv4-d":"Excavación, nivelación y demolición con equipos de última generación y operadores certificados.",
+      "lbl-galeria":"Galería","titulo-galeria":"Nuestros<br><em>equipos</em>","galeria-hint":"Clic en las imágenes para ampliar",
+      "lbl-video":"En acción","titulo-video":"Véanos<br><em>trabajar</em>",
+      "video-desc":"Mire de cerca cómo operamos nuestros equipos con precisión y profesionalismo en cada proyecto.",
+      "video-cta":"Solicitar cotización <span class='arrow'>→</span>",
+      "lbl-ubicacion":"Encuéntrenos","titulo-ubicacion":"¿Dónde<br><em>estamos?</em>",
+      "ub-dir":"Dirección","ub-tel":"Teléfono / WhatsApp","ub-email":"Correo","ub-hora":"Horario",
+      "ub-hora-txt":"Lunes – Sábado · 7:00am – 6:00pm",
+      "cta-cotizar":"Solicitar cotización <span class='arrow'>→</span>",
+      "footer-desc":"Empresa líder en alquiler y reparación de equipo para la construcción en Costa Rica.",
+      "footer-nav-t":"Navegación","footer-dev-t":"Desarrollado por",
+      "f-servicios":"Servicios","f-galeria":"Galería","f-video":"Video","f-ubicacion":"Ubicación","f-contacto":"Contacto",
+      "footer-rights":"Todos los derechos reservados.",
+      "nav-servicios":"Servicios","nav-galeria":"Galería","nav-video":"Video","nav-ubicacion":"Ubicación","nav-contacto":"Contacto",
+      "modal-title":"Contáctenos <em>hoy</em>","modal-sub":"Respondemos en menos de 24 horas ✦",
+      "f-nombre":"Nombre completo","f-email-lbl":"Correo electrónico","f-msg":"Mensaje o consulta","f-send":"Enviar mensaje →",
     },
-    en: {
-      "titulo-servicios": "Equipment Rental & Repair",
-      "texto-servicios": "We offer specialized construction equipment: compactors, breakers, mixers, generators, and more. We also repair your machinery with warranty.",
-      "titulo-galeria": "Equipment Gallery",
-      "titulo-video": "Promotional Video",
-      "titulo-ubicacion": "Our Location",
-      "nav-servicios": "Services",
-      "nav-galeria": "Gallery",
-      "nav-video": "Video",
-      "nav-ubicacion": "Location",
-      "nav-contacto": "Contact"
+    en:{
+      "hero-badge":"Costa Rica · Guanacaste",
+      "hero-h1":"Heavy<br>equipment,<br><em>real</em><br>results.",
+      "hero-desc":"Rental, repair and transport of construction machinery. Certified quality, competitive prices and professional staff.",
+      "hero-btn1":"Our services <span class='arrow'>→</span>","hero-btn2":"Get a quote",
+      "hero-float-lbl":"Years of experience","hero-scroll-lbl":"Explore",
+      "stat1":"Available equipment","stat2":"Certified quality","stat3":"Active support","stat4":"Happy clients",
+      "lbl-servicios":"Our services","titulo-servicios":"Rental &<br><em>repair</em> services",
+      "texto-servicios":"We have a service workshop, transport, earthmoving and demolition. Best market prices with certified equipment and proven quality guarantee.",
+      "email-lbl":"Email:",
+      "srv1-t":"Equipment Rental","srv1-d":"Compactors, breakers, mixers, generators and more specialized equipment for your project.",
+      "srv2-t":"Repair & Workshop","srv2-d":"Specialized technical service with proven warranty for all construction equipment.",
+      "srv3-t":"Transport","srv3-d":"Transfer and mobilization of heavy equipment with own fleet. We cover the entire Guanacaste region.",
+      "srv4-t":"Earthmoving","srv4-d":"Excavation, leveling and demolition with state-of-the-art equipment and certified operators.",
+      "lbl-galeria":"Gallery","titulo-galeria":"Our<br><em>equipment</em>","galeria-hint":"Click images to enlarge",
+      "lbl-video":"In action","titulo-video":"Watch us<br><em>work</em>",
+      "video-desc":"Take a close look at how we operate our equipment with precision and professionalism on every project.",
+      "video-cta":"Request a quote <span class='arrow'>→</span>",
+      "lbl-ubicacion":"Find us","titulo-ubicacion":"Where<br><em>are we?</em>",
+      "ub-dir":"Address","ub-tel":"Phone / WhatsApp","ub-email":"Email","ub-hora":"Hours",
+      "ub-hora-txt":"Monday – Saturday · 7:00am – 6:00pm",
+      "cta-cotizar":"Request a quote <span class='arrow'>→</span>",
+      "footer-desc":"Leading company in construction equipment rental and repair in Costa Rica.",
+      "footer-nav-t":"Navigation","footer-dev-t":"Developed by",
+      "f-servicios":"Services","f-galeria":"Gallery","f-video":"Video","f-ubicacion":"Location","f-contacto":"Contact",
+      "footer-rights":"All rights reserved.",
+      "nav-servicios":"Services","nav-galeria":"Gallery","nav-video":"Video","nav-ubicacion":"Location","nav-contacto":"Contact",
+      "modal-title":"Contact us <em>today</em>","modal-sub":"Response within 24 hours ✦",
+      "f-nombre":"Full name","f-email-lbl":"Email address","f-msg":"Message or inquiry","f-send":"Send message →",
     }
   };
-
-  document.getElementById('lang').addEventListener('change', function () {
-    const lang = this.value;
-    const txt = textos[lang];
-    for (let id in txt) {
-      document.getElementById(id).textContent = txt[id];
-    }
-  });
-
-  const contacto = document.getElementById('nav-contacto');
-  const modal = document.getElementById('contactModal');
-
-  contacto.addEventListener('click', function(e) {
-    e.preventDefault();
-    modal.style.display = 'block';
-  });
-
-  document.querySelector('.close').addEventListener('click', function () {
-    modal.style.display = 'none';
+  document.getElementById('lang').addEventListener('change',function(){
+    const t=TX[this.value];
+    for(const[id,val]of Object.entries(t)){const el=document.getElementById(id);if(el)el.innerHTML=val;}
   });
 </script>
-
 </body>
 </html>
